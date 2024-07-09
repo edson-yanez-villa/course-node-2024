@@ -15,7 +15,7 @@ async function getUsers(req, res) {
         logger.error(error.message);
         res.status(500).json({ message: error.message });
     }
-    return res.json({ message: 'users list' });
+    res.json({ message: 'users list' });
 }
 
 async function createUser(req, res) {
@@ -28,7 +28,7 @@ async function createUser(req, res) {
         logger.error(error.message);
         res.status(500).json({ message: error.message });
     }
-    return res.json({ username, password });
+    res.json({ username, password });
 }
 
 async function getUser(req, res) {
@@ -39,7 +39,7 @@ async function getUser(req, res) {
             where: { id }
         });
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            res.status(404).json({ message: 'User not found' });
         }
         res.json(user);
     } catch (error) {
@@ -53,7 +53,7 @@ const updateUser = async (req, res) => {
     const { username, password } = req.body;
     try {
         if(!username || !password) {
-            return res.status(400).json({ message: 'Missing username or password' });
+            res.status(400).json({ message: 'Missing username or password' });
         }
         const user = await User.update({ username, password }, { where: { id } });
         res.json(user);
@@ -68,11 +68,11 @@ const activateInactive = async (req, res) => {
     const { status } = req.body;
     try {
         if(!status) {
-            return res.status(400).json({ message: 'Missing status' });
+            res.status(400).json({ message: 'Missing status' });
         }
         const user = await User.findByPk(id);
         if(user.status === status) {
-            return res
+            res
                 .status(409)
                 .json({ message: `User already ${status}` });
         }

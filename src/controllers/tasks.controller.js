@@ -49,7 +49,7 @@ async function updateTask(req, res) {
     try {
         const task = await Task.update({ name }, { where: { id, userId } });
         if (task[0] === 0) {
-            return res.status(404).json({ message: 'Task not found' });
+            res.status(404).json({ message: 'Task not found' });
         }
         res.json(task);
     } catch (error) {
@@ -65,7 +65,7 @@ async function taskDone(req, res) {
     try {
         const task = await Task.update({ done }, { where: { id, userId } });
         if (task[0] === 0) {
-            return res.status(404).json({ message: 'Task not found' });
+            res.status(404).json({ message: 'Task not found' });
         }
         res.json(task);
     } catch (error) {
@@ -80,7 +80,7 @@ async function deleteTask(req, res) {
     try {
         const task = await Task.destroy({ where: { id, userId } });
         if (task === 0) {
-            return res.status(404).json({ message: 'Task not found' });
+            res.status(404).json({ message: 'Task not found' });
         }
         res.sendStatus(204);
     } catch (error) {
